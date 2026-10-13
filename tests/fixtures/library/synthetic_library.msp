@@ -1,0 +1,112 @@
+Name: creatinine
+Formula: C4H7N3O
+PrecursorMZ: 114.066188
+Precursor_type: [M+H]+
+Ion_mode: Positive
+Comments: licence=CC0-1.0 (synthetic); source=simplymz-mcp synthetic fixtures
+Num Peaks: 2
+86.071274 999.0
+96.055624 399.6
+
+Name: niacinamide
+Formula: C6H6N2O
+PrecursorMZ: 123.055289
+Precursor_type: [M+H]+
+Ion_mode: Positive
+Comments: licence=CC0-1.0 (synthetic); source=simplymz-mcp synthetic fixtures
+Num Peaks: 2
+78.033826 499.5
+106.028740 999.0
+
+Name: carnitine
+Formula: C7H15NO3
+PrecursorMZ: 162.112470
+Precursor_type: [M+H]+
+Ion_mode: Positive
+Comments: licence=CC0-1.0 (synthetic); source=simplymz-mcp synthetic fixtures
+Num Peaks: 2
+85.028406 999.0
+144.101905 299.7
+
+Name: adenosine
+Formula: C10H13N5O4
+PrecursorMZ: 268.104030
+Precursor_type: [M+H]+
+Ion_mode: Positive
+Comments: licence=CC0-1.0 (synthetic); source=simplymz-mcp synthetic fixtures
+Num Peaks: 2
+119.035223 199.8
+136.061772 999.0
+
+Name: theophylline
+Formula: C7H8N4O2
+PrecursorMZ: 181.072002
+Precursor_type: [M+H]+
+Ion_mode: Positive
+Comments: licence=CC0-1.0 (synthetic); source=simplymz-mcp synthetic fixtures
+Num Peaks: 2
+124.050538 999.0
+149.045787 599.4
+
+Name: tyrosine
+Formula: C9H11NO3
+PrecursorMZ: 182.081170
+Precursor_type: [M+H]+
+Ion_mode: Positive
+Comments: licence=CC0-1.0 (synthetic); source=simplymz-mcp synthetic fixtures
+Num Peaks: 3
+119.049141 299.7
+136.075690 999.0
+165.054621 499.5
+
+Name: caffeine
+Formula: C8H10N4O2
+PrecursorMZ: 195.087652
+Precursor_type: [M+H]+
+Ion_mode: Positive
+Comments: licence=CC0-1.0 (synthetic); source=simplymz-mcp synthetic fixtures
+Num Peaks: 2
+110.071274 399.6
+138.066188 999.0
+
+Name: phenylalanine
+Formula: C9H11NO2
+PrecursorMZ: 166.086255
+Precursor_type: [M+H]+
+Ion_mode: Positive
+Comments: licence=CC0-1.0 (synthetic); source=simplymz-mcp synthetic fixtures
+Num Peaks: 2
+103.054227 299.7
+120.080776 999.0
+
+Name: glutathione
+Formula: C10H17N3O6S
+PrecursorMZ: 308.091083
+Precursor_type: [M+H]+
+Ion_mode: Positive
+Comments: licence=CC0-1.0 (synthetic); source=simplymz-mcp synthetic fixtures
+Num Peaks: 3
+130.049870 599.4
+233.059055 999.0
+291.064534 399.6
+
+Name: tryptophan
+Formula: C11H12N2O2
+PrecursorMZ: 205.097154
+Precursor_type: [M+H]+
+Ion_mode: Positive
+Comments: licence=CC0-1.0 (synthetic); source=simplymz-mcp synthetic fixtures
+Num Peaks: 3
+118.065126 299.7
+146.060040 499.5
+188.070605 999.0
+
+Name: hippuric_acid
+Formula: C9H9NO3
+PrecursorMZ: 180.065520
+Precursor_type: [M+H]+
+Ion_mode: Positive
+Comments: licence=CC0-1.0 (synthetic); source=simplymz-mcp synthetic fixtures
+Num Peaks: 2
+77.038577 299.7
+105.033491 999.0

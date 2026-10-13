@@ -1,0 +1,77 @@
+{
+  "milestone": "M4",
+  "status": "pass_with_waivers",
+  "timestamp_utc": "2026-10-05T23:54:51+00:00",
+  "commit": "aea9205",
+  "worktree_dirty": false,
+  "ci": false,
+  "test_count": 451,
+  "steps": {
+    "1_lint_format": {
+      "summary": "All checks passed!; 152 files already formatted",
+      "status": "pass",
+      "seconds": 0.1
+    },
+    "2_types": {
+      "summary": "Success: no issues found in 58 source files",
+      "status": "pass",
+      "seconds": 5.7
+    },
+    "3_tests_coverage": {
+      "summary": "449 passed / 0 failed / 2 skipped; core coverage 97.6%",
+      "tests": {
+        "total": 451,
+        "passed": 449,
+        "failed": 0,
+        "skipped": 2
+      },
+      "core_coverage_pct": 97.6,
+      "status": "pass",
+      "seconds": 385.5
+    },
+    "4_contract": {
+      "summary": "3 passed in 14.33s",
+      "status": "pass",
+      "seconds": 15.1
+    },
+    "5_acceptance_current": {
+      "summary": "6 passed in 5.07s",
+      "criteria": [
+        "M4-AC1",
+        "M4-AC2",
+        "M4-AC3",
+        "M4-AC4",
+        "M4-AC5",
+        "M4-AC6"
+      ],
+      "status": "pass",
+      "seconds": 5.7
+    },
+    "6_acceptance_regression": {
+      "summary": "38 passed in 105.01s (0:01:45)",
+      "status": "pass",
+      "seconds": 105.7
+    },
+    "7_progress_records": {
+      "summary": "7 tasks VERIFIED, 0 deferred; summary present",
+      "human_checks": {
+        "CI run URL recorded for M4": "waived"
+      },
+      "waived": [
+        "CI run URL recorded for M4"
+      ],
+      "status": "pass",
+      "seconds": 0.0
+    },
+    "8_test_count": {
+      "summary": "451 tests (previous gate M3: 316)",
+      "status": "pass",
+      "seconds": 0.0
+    },
+    "9_gitleaks": {
+      "summary": "11:54PM INF no leaks found",
+      "status": "pass",
+      "seconds": 2.8
+    }
+  }
+}

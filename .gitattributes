@@ -1,0 +1,2 @@
+# Fixtures are byte-exact (SHA-256 checked); never convert line endings.
+tests/fixtures/** -text

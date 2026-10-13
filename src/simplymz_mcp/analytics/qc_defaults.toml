@@ -1,0 +1,55 @@
+# SimplyMZ QC thresholds (plan M2.T3).
+# Configurable defaults informed by common LC-MS QA/QC practice (e.g. QC RSD limits around
+# 20-30%, RT stability within a few seconds, mass accuracy within ~5 ppm on high-resolution
+# instruments). They are NOT a standard: tune them for your instrument and method.
+# verdict: value <= warn -> pass; warn < value <= fail -> warn; value > fail -> fail.
+
+[tic_cv_qc_pct]
+warn = 15.0
+fail = 25.0
+description = "CV of total MS1 TIC across QC injections"
+
+[rt_drift_min]
+warn = 0.1
+fail = 0.2
+description = "Largest RT deviation of a reference feature from its QC median"
+
+[mass_error_ppm]
+warn = 5.0
+fail = 10.0
+description = "Largest per-run median m/z error of reference features"
+
+[qc_feature_cv_pct]
+warn = 20.0
+fail = 30.0
+description = "Median CV of reference feature areas across QC injections"
+
+[missingness_pct]
+warn = 5.0
+fail = 20.0
+description = "Reference features not detected, % of (non-blank run x feature)"
+
+[blank_carryover_pct]
+warn = 1.0
+fail = 5.0
+description = "Largest blank/preceding-injection area ratio for sample-derived features"
+
+[blank_contamination_pct]
+warn = 15.0
+fail = 30.0
+description = "Largest blank TIC as % of the median sample TIC"
+
+[ms2_count_cv_pct]
+warn = 10.0
+fail = 20.0
+description = "CV of MS2 spectrum counts across QC injections"
+
+[intensity_trend_pct_per_injection]
+warn = 2.0
+fail = 5.0
+description = "Largest QC area trend per injection (log-linear fit)"
+
+[scan_dropouts]
+warn = 0.0
+fail = 4.0
+description = "Longest run of empty or TIC-dropout MS1 scans in any run"

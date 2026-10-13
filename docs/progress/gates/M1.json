@@ -1,0 +1,69 @@
+{
+  "milestone": "M1",
+  "status": "pass_with_waivers",
+  "timestamp_utc": "2026-10-05T03:45:25+00:00",
+  "commit": "de5333e",
+  "worktree_dirty": false,
+  "ci": false,
+  "test_count": 195,
+  "steps": {
+    "1_lint_format": {
+      "summary": "All checks passed!; 77 files already formatted",
+      "status": "pass"
+    },
+    "2_types": {
+      "summary": "Success: no issues found in 31 source files",
+      "status": "pass"
+    },
+    "3_tests_coverage": {
+      "summary": "195 passed / 0 failed / 0 skipped; core coverage 97.2%",
+      "tests": {
+        "total": 195,
+        "passed": 195,
+        "failed": 0,
+        "skipped": 0
+      },
+      "core_coverage_pct": 97.2,
+      "status": "pass"
+    },
+    "4_contract": {
+      "summary": "3 passed in 4.99s",
+      "status": "pass"
+    },
+    "5_acceptance_current": {
+      "summary": "7 passed in 23.38s",
+      "criteria": [
+        "M1-AC1",
+        "M1-AC2",
+        "M1-AC3",
+        "M1-AC4",
+        "M1-AC5",
+        "M1-AC6",
+        "M1-AC7"
+      ],
+      "status": "pass"
+    },
+    "6_acceptance_regression": {
+      "summary": "5 passed in 11.55s",
+      "status": "pass"
+    },
+    "7_progress_records": {
+      "summary": "8 tasks VERIFIED; summary present",
+      "human_checks": {
+        "CI run URL recorded for M1": "waived"
+      },
+      "waived": [
+        "CI run URL recorded for M1"
+      ],
+      "status": "pass"
+    },
+    "8_test_count": {
+      "summary": "195 tests (previous gate M0: 85)",
+      "status": "pass"
+    },
+    "9_gitleaks": {
+      "summary": "3:45AM INF no leaks found",
+      "status": "pass"
+    }
+  }
+}

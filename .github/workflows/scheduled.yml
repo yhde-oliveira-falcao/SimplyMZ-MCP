@@ -1,0 +1,22 @@
+# M5.T3: network and slow suites on a schedule (not on every PR).
+name: scheduled
+
+on:
+  schedule:
+    - cron: "0 6 * * 1"   # Mondays 06:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  network:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v7
+        with:
+          python-version: "3.12"
+      - run: uv sync --locked
+      - name: network and integration tests (real public data)
+        run: uv run pytest -m network -q

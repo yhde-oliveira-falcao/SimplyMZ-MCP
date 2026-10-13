@@ -1,0 +1,421 @@
+{
+ "compounds": [
+  {
+   "adduct": "[M+H]+",
+   "area_counts_min": 286499.936,
+   "formula": "C4H7N3O",
+   "fwhm_min": 0.15,
+   "height_counts": 1794324.8,
+   "ion_mz": 114.066188,
+   "isotopes": [
+    {
+     "mz": 114.066188,
+     "rel": 1.0
+    },
+    {
+     "mz": 115.068341,
+     "rel": 0.055409
+    },
+    {
+     "mz": 116.07035,
+     "rel": 0.003336
+    },
+    {
+     "mz": 117.072469,
+     "rel": 0.000129
+    }
+   ],
+   "name": "creatinine",
+   "role": "planted",
+   "rt_min": 1.1075,
+   "sigma_min": 0.063699135
+  },
+  {
+   "adduct": "[M+H]+",
+   "area_counts_min": 112864.23,
+   "formula": "C6H6N2O",
+   "fwhm_min": 0.15,
+   "height_counts": 706859.1,
+   "ion_mz": 123.055289,
+   "isotopes": [
+    {
+     "mz": 123.055289,
+     "rel": 1.0
+    },
+    {
+     "mz": 124.058046,
+     "rel": 0.073272
+    },
+    {
+     "mz": 125.060146,
+     "rel": 0.004375
+    },
+    {
+     "mz": 126.062478,
+     "rel": 0.000191
+    }
+   ],
+   "name": "niacinamide",
+   "role": "planted",
+   "rt_min": 1.6075,
+   "sigma_min": 0.063699135
+  },
+  {
+   "adduct": "[M+H]+",
+   "area_counts_min": 239034.42,
+   "formula": "C7H15NO3",
+   "fwhm_min": 0.15,
+   "height_counts": 1497052.3,
+   "ion_mz": 162.11247,
+   "isotopes": [
+    {
+     "mz": 162.11247,
+     "rel": 1.0
+    },
+    {
+     "mz": 163.115617,
+     "rel": 0.082231
+    },
+    {
+     "mz": 164.117371,
+     "rel": 0.00913
+    },
+    {
+     "mz": 165.12007,
+     "rel": 0.000566
+    }
+   ],
+   "name": "carnitine",
+   "role": "planted",
+   "rt_min": 1.9575,
+   "sigma_min": 0.063699135
+  },
+  {
+   "adduct": "[M+H]+",
+   "area_counts_min": 507364.526,
+   "formula": "C10H13N5O4",
+   "fwhm_min": 0.15,
+   "height_counts": 3177581.0,
+   "ion_mz": 268.10403,
+   "isotopes": [
+    {
+     "mz": 268.10403,
+     "rel": 1.0
+    },
+    {
+     "mz": 269.106537,
+     "rel": 0.129443
+    },
+    {
+     "mz": 270.108609,
+     "rel": 0.015979
+    },
+    {
+     "mz": 271.110888,
+     "rel": 0.001347
+    }
+   ],
+   "name": "adenosine",
+   "role": "planted",
+   "rt_min": 2.9075,
+   "sigma_min": 0.063699135
+  },
+  {
+   "adduct": "[M+H]+",
+   "area_counts_min": 59606.763,
+   "formula": "C7H8N4O2",
+   "fwhm_min": 0.15,
+   "height_counts": 373312.1,
+   "ion_mz": 181.072002,
+   "isotopes": [
+    {
+     "mz": 181.072002,
+     "rel": 1.0
+    },
+    {
+     "mz": 182.074389,
+     "rel": 0.092005
+    },
+    {
+     "mz": 183.076437,
+     "rel": 0.007906
+    },
+    {
+     "mz": 184.078649,
+     "rel": 0.000469
+    }
+   ],
+   "name": "theophylline",
+   "role": "planted",
+   "rt_min": 3.4575,
+   "sigma_min": 0.063699135
+  },
+  {
+   "adduct": "[M+H]+",
+   "area_counts_min": 44936.566,
+   "formula": "C9H11NO3",
+   "fwhm_min": 0.15,
+   "height_counts": 281433.9,
+   "ion_mz": 182.08117,
+   "isotopes": [
+    {
+     "mz": 182.08117,
+     "rel": 1.0
+    },
+    {
+     "mz": 183.084346,
+     "rel": 0.103403
+    },
+    {
+     "mz": 184.086329,
+     "rel": 0.010978
+    },
+    {
+     "mz": 185.088941,
+     "rel": 0.000768
+    }
+   ],
+   "name": "tyrosine",
+   "role": "planted",
+   "rt_min": 3.9075,
+   "sigma_min": 0.063699135
+  },
+  {
+   "adduct": "[M+H]+",
+   "area_counts_min": 2345502.829,
+   "formula": "C8H10N4O2",
+   "fwhm_min": 0.15,
+   "height_counts": 14689685.3,
+   "ion_mz": 195.087652,
+   "isotopes": [
+    {
+     "mz": 195.087652,
+     "rel": 1.0
+    },
+    {
+     "mz": 196.09015,
+     "rel": 0.103051
+    },
+    {
+     "mz": 197.092244,
+     "rel": 0.008925
+    },
+    {
+     "mz": 198.09449,
+     "rel": 0.000557
+    }
+   ],
+   "name": "caffeine",
+   "role": "planted",
+   "rt_min": 4.4075,
+   "sigma_min": 0.063699135
+  },
+  {
+   "adduct": "[M+H]+",
+   "area_counts_min": 354601.592,
+   "formula": "C9H11NO2",
+   "fwhm_min": 0.15,
+   "height_counts": 2220839.7,
+   "ion_mz": 166.086255,
+   "isotopes": [
+    {
+     "mz": 166.086255,
+     "rel": 1.0
+    },
+    {
+     "mz": 167.089428,
+     "rel": 0.103022
+    },
+    {
+     "mz": 168.091617,
+     "rel": 0.008883
+    },
+    {
+     "mz": 169.094151,
+     "rel": 0.000553
+    }
+   ],
+   "name": "phenylalanine",
+   "role": "planted",
+   "rt_min": 5.1075,
+   "sigma_min": 0.063699135
+  },
+  {
+   "adduct": "[M+H]+",
+   "area_counts_min": 190837.392,
+   "formula": "C10H12N2O3",
+   "fwhm_min": 0.15,
+   "height_counts": 1195198.4,
+   "ion_mz": 209.092069,
+   "isotopes": [
+    {
+     "mz": 209.092069,
+     "rel": 1.0
+    },
+    {
+     "mz": 210.095075,
+     "rel": 0.117987
+    },
+    {
+     "mz": 211.097191,
+     "rel": 0.012527
+    },
+    {
+     "mz": 212.099682,
+     "rel": 0.000932
+    }
+   ],
+   "name": "kynurenine",
+   "role": "planted",
+   "rt_min": 5.6075,
+   "sigma_min": 0.063699135
+  },
+  {
+   "adduct": "[M+H]+",
+   "area_counts_min": 95472.664,
+   "formula": "C10H17N3O6S",
+   "fwhm_min": 0.15,
+   "height_counts": 597937.2,
+   "ion_mz": 308.091083,
+   "isotopes": [
+    {
+     "mz": 308.091083,
+     "rel": 1.0
+    },
+    {
+     "mz": 309.09373,
+     "rel": 0.131254
+    },
+    {
+     "mz": 310.089639,
+     "rel": 0.065049
+    },
+    {
+     "mz": 311.091889,
+     "rel": 0.007431
+    }
+   ],
+   "name": "glutathione",
+   "role": "planted",
+   "rt_min": 6.1075,
+   "sigma_min": 0.063699135
+  },
+  {
+   "adduct": "[M+H]+",
+   "area_counts_min": 329903.972,
+   "formula": "C11H12N2O2",
+   "fwhm_min": 0.15,
+   "height_counts": 2066160.6,
+   "ion_mz": 205.097154,
+   "isotopes": [
+    {
+     "mz": 205.097154,
+     "rel": 1.0
+    },
+    {
+     "mz": 206.100186,
+     "rel": 0.128422
+    },
+    {
+     "mz": 207.102557,
+     "rel": 0.011699
+    },
+    {
+     "mz": 208.105014,
+     "rel": 0.0008
+    }
+   ],
+   "name": "tryptophan",
+   "role": "planted",
+   "rt_min": 6.7075,
+   "sigma_min": 0.063699135
+  },
+  {
+   "adduct": "[M+H]+",
+   "area_counts_min": 606358.57,
+   "formula": "C9H9NO3",
+   "fwhm_min": 0.15,
+   "height_counts": 3797572.3,
+   "ion_mz": 180.06552,
+   "isotopes": [
+    {
+     "mz": 180.06552,
+     "rel": 1.0
+    },
+    {
+     "mz": 181.06869,
+     "rel": 0.103173
+    },
+    {
+     "mz": 182.07067,
+     "rel": 0.010954
+    },
+    {
+     "mz": 183.073279,
+     "rel": 0.000766
+    }
+   ],
+   "name": "hippuric_acid",
+   "role": "planted",
+   "rt_min": 7.3075,
+   "sigma_min": 0.063699135
+  },
+  {
+   "adduct": "[M+H]+",
+   "area_counts_min": 106446.702,
+   "formula": "C24H38O4",
+   "fwhm_min": 0.25,
+   "height_counts": 400000.0,
+   "ion_mz": 391.284286,
+   "isotopes": [
+    {
+     "mz": 391.284286,
+     "rel": 1.0
+    },
+    {
+     "mz": 392.287694,
+     "rel": 0.265472
+    },
+    {
+     "mz": 393.290603,
+     "rel": 0.042053
+    },
+    {
+     "mz": 394.293382,
+     "rel": 0.004935
+    }
+   ],
+   "name": "dehp_contaminant",
+   "role": "planted",
+   "rt_min": 9.8075,
+   "sigma_min": 0.106165225
+  }
+ ],
+ "content_digest": "0072177aa67ff5078319dcdd9de97bf318003e1799fc0f487544e765df5eada3",
+ "dropout_ms1_indices": [],
+ "faults": {
+  "carryover_fraction": 0.0,
+  "carryover_from": [],
+  "contaminant_height": 0.0,
+  "dropout_scans": 0,
+  "dropout_start_scan": null,
+  "intensity_scale": 1.0,
+  "mass_error_ppm": 0.0,
+  "rt_shift_min": 0.0
+ },
+ "file": "batch_qc/b_02.mzML.gz",
+ "generator_version": "1",
+ "ms2_compounds": [],
+ "n_ms1": 201,
+ "n_ms2": 0,
+ "name": "b_02",
+ "noise_level_counts": 300.0,
+ "polarity": "positive",
+ "rt_range_min": [
+  0.0,
+  10.0
+ ],
+ "scan_interval_min": 0.05,
+ "seed": 632070926,
+ "sha256": "e2013e82b523eacd822a758f6c50c98b13341256826bfb7aed28665f8762806a"
+}

@@ -1,0 +1,12 @@
+file,sample_type,group,injection_order
+blank_01.mzML.gz,blank,,1
+qc_01.mzML.gz,qc,,2
+a_01.mzML.gz,sample,A,3
+b_01.mzML.gz,sample,B,4
+a_02.mzML.gz,sample,A,5
+qc_02.mzML.gz,qc,,6
+b_02.mzML.gz,sample,B,7
+a_03.mzML.gz,sample,A,8
+b_03.mzML.gz,sample,B,9
+qc_03.mzML.gz,qc,,10
+blank_02.mzML.gz,blank,,11

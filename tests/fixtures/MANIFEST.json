@@ -1,0 +1,91 @@
+{
+ "files": {
+  "batch_qc/a_01.mzML.gz": {
+   "content_digest": "f78b03b1b43373ac9140b3be9be1bd7fec6fa0d51c10adf870eb8992c72992dd",
+   "sha256": "5d9a230e1befa3021fab0355e77c1836b84fa0d1287ad90c966dddbd06ed66ba"
+  },
+  "batch_qc/a_02.mzML.gz": {
+   "content_digest": "35896277c1583007ecda080951b8abb5c66049f033a33825bf850f0702365e07",
+   "sha256": "500d7bba14ea61ff6ec651371803e4c19e5220a87a60b586e3d256763e9a99f8"
+  },
+  "batch_qc/a_03.mzML.gz": {
+   "content_digest": "f53c5c62fbd2ca5a261433d7e31508747635dc45ab806a734bb03bf12b8c964e",
+   "sha256": "351d35be8d94eaad57e1c29d08136f766a04a348928ebe81d7ab5dc770f0481b"
+  },
+  "batch_qc/b_01.mzML.gz": {
+   "content_digest": "91f59fe61942b59cf0cf3171645ec16174364b38bf3f3f94a6bf803300d272e4",
+   "sha256": "4890cd36794c4d411f503dbb3c1717422950e38f24bd28bb286b10bd2250a702"
+  },
+  "batch_qc/b_02.mzML.gz": {
+   "content_digest": "0072177aa67ff5078319dcdd9de97bf318003e1799fc0f487544e765df5eada3",
+   "sha256": "e2013e82b523eacd822a758f6c50c98b13341256826bfb7aed28665f8762806a"
+  },
+  "batch_qc/b_03.mzML.gz": {
+   "content_digest": "c6e4978e80938c7e0a3f10eae09a64a7365b53528dad588640235f944fe48f01",
+   "sha256": "3add2f58f0cbfb705c95332e07a7b1d819783fc46be656c51ea4cf19e7ab7305"
+  },
+  "batch_qc/blank_01.mzML.gz": {
+   "content_digest": "32fe03795c08c5bb372066926e9a9b3c49ed12b080431389fc04c3fe5d493839",
+   "sha256": "57d27a2515a0d87d05605eb8f45ce93c0dd4f88362e8e1370d36ec3b0b3778c5"
+  },
+  "batch_qc/blank_02.mzML.gz": {
+   "content_digest": "7149699c18db567250423d71161382a4a934f5138272042cb37289bb8534ea7a",
+   "sha256": "3a7b48530687907b181a5b788131d33e952d5f76b39e8ce0e56cd7573a44f2c7"
+  },
+  "batch_qc/qc_01.mzML.gz": {
+   "content_digest": "d670445c939067118092b1026b026ea8425c5849ce92bde4bbdaaa83ca4c3f61",
+   "sha256": "8ff255338e0404cf2a3d9fce91d45bff4abc59521be967d8bd06a321fa8961f3"
+  },
+  "batch_qc/qc_02.mzML.gz": {
+   "content_digest": "44905167e65b9242f908e116c065c9c4f1ed103f0c7e557c1cf0ad1cd5fb0176",
+   "sha256": "3b5018dd5a6d96ac73dbe619246ada65983928ddbde01083820e5e948c707f8e"
+  },
+  "batch_qc/qc_03.mzML.gz": {
+   "content_digest": "372d8c1529ffa9426056fc84c3fc047ef5409b367356d348dcf7d7f486a6f536",
+   "sha256": "ed06a3b0adbeec2b9f1aac5452a857e3e7d4fa63e0b3c451dda5e7195df93622"
+  },
+  "batch_qc/sample_sheet.csv": {
+   "sha256": "df1e8046db402c5399f45c6fe797442bbedae487d43a7ef7e22855fa24cc84f7"
+  },
+  "faults/carryover_blank.mzML.gz": {
+   "content_digest": "db5fc969439d63fc3916fdfea1f8fa3d533c12f24cad9d6e10e6ddaa795702ec",
+   "sha256": "2f41ee471c62fffdc205cfac36aa346df61cbe8bb04f1b34e7d5032b57844ec3"
+  },
+  "faults/contaminant.mzML.gz": {
+   "content_digest": "b23ed5dfdf6b9da0176019ad5d9a5323e6ca2bd95b0f8a2bd5db4a24eafff758",
+   "sha256": "7d98177c1010afd8c5b73a2793309f343cdca5ea03949d158edd65a2de300388"
+  },
+  "faults/dropout.mzML.gz": {
+   "content_digest": "20d626418c217f549ade619ed1931e028dee0f6bfeb3cd5cbcc05ad0d0bd6a11",
+   "sha256": "5f1b99d6edd7a3dc7a9313f7340e5f915b90cb1e5b40628c3d57caac20bce1b2"
+  },
+  "faults/intensity_scale.mzML.gz": {
+   "content_digest": "e6587a9bf97abe5f2ee6ee525f303b34a1632a50a7308d8847cd89648ef2845b",
+   "sha256": "0cc59826dc4882c2e8e3e59e5e58af07f38b1ee37fa86fce2c5c7b3084e8a801"
+  },
+  "faults/mass_error.mzML.gz": {
+   "content_digest": "fa9b067c38abeec245030d978d037268b7f6c4a8137527275880b85fd9041a75",
+   "sha256": "f1add16d0730658b38d719743197edfd6b1ec4bb8ec1bd4fc243ae9e2077b354"
+  },
+  "faults/rt_shift.mzML.gz": {
+   "content_digest": "471612ee4d88ff26d7ee150377993b9c33ff34151cfa78efabf076307bc4d47a",
+   "sha256": "3e0db5996a5373e28f96dadb36a660e12aba8c3dbae661b73484d37681998575"
+  },
+  "library/synthetic_library.msp": {
+   "sha256": "256840b7717459e1a86c4f31a711653713179aba9e9499f594bff5b217c6959b"
+  },
+  "runs/clean_neg.mzML.gz": {
+   "content_digest": "496d6ef207994d60611e67054fb5198732845783c756447f88e784b3018c5c38",
+   "sha256": "69117917fb04b68d095023da0c28cef1b42374ce442a2a1687e284cf421f9aae"
+  },
+  "runs/clean_pos.mzML": {
+   "content_digest": "a0b8d7d55a736d0094b0488e25bad804abdc4f7a44b8a712ffa53c49c992b419",
+   "sha256": "00ffabfc87c538858f772135c85ce7d5bc10dbbc19e67a3f61b30190c659cce6"
+  },
+  "runs/ms2_dda.mzML.gz": {
+   "content_digest": "e727624317f1eb446b36994ac050223eb1f9e94c29b23b3207c632fbb0d43042",
+   "sha256": "99ca78bc8b80a98559b8bd7be476ea0d4f5b724c206e3c018a59da89c6a32a00"
+  }
+ },
+ "seed": 20261004
+}

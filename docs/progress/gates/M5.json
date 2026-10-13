@@ -1,0 +1,83 @@
+{
+  "milestone": "M5",
+  "status": "local_pass_pending_human",
+  "timestamp_utc": "2026-10-06T00:31:57+00:00",
+  "commit": "3f70c52",
+  "worktree_dirty": false,
+  "ci": false,
+  "test_count": 458,
+  "steps": {
+    "1_lint_format": {
+      "summary": "All checks passed!; 163 files already formatted",
+      "status": "pass",
+      "seconds": 0.1
+    },
+    "2_types": {
+      "summary": "Success: no issues found in 58 source files",
+      "status": "pass",
+      "seconds": 5.7
+    },
+    "3_tests_coverage": {
+      "summary": "456 passed / 0 failed / 2 skipped; core coverage 97.6%",
+      "tests": {
+        "total": 458,
+        "passed": 456,
+        "failed": 0,
+        "skipped": 2
+      },
+      "core_coverage_pct": 97.6,
+      "status": "pass",
+      "seconds": 197.7
+    },
+    "4_contract": {
+      "summary": "3 passed in 5.77s",
+      "status": "pass",
+      "seconds": 6.4
+    },
+    "5_acceptance_current": {
+      "summary": "5 passed in 33.89s",
+      "criteria": [
+        "M5-AC1",
+        "M5-AC2",
+        "M5-AC3",
+        "M5-AC4",
+        "M5-AC5"
+      ],
+      "status": "pass",
+      "seconds": 34.6
+    },
+    "6_acceptance_regression": {
+      "summary": "44 passed in 41.79s",
+      "status": "pass",
+      "seconds": 42.5
+    },
+    "7_progress_records": {
+      "summary": "6 tasks VERIFIED, 1 deferred; summary present",
+      "human_checks": {
+        "CI run URL recorded for M5": "waived",
+        "LLM evaluation table in eval/results.md (needs ANTHROPIC_API_KEY)": "pending",
+        "TestPyPI install on 3 OSes (release workflow run URL in STATUS.md)": "pending"
+      },
+      "waived": [
+        "CI run URL recorded for M5",
+        "M5.T7 deferred"
+      ],
+      "pending_human": [
+        "LLM evaluation table in eval/results.md (needs ANTHROPIC_API_KEY)",
+        "TestPyPI install on 3 OSes (release workflow run URL in STATUS.md)"
+      ],
+      "status": "pass",
+      "seconds": 0.0
+    },
+    "8_test_count": {
+      "summary": "458 tests (previous gate M4: 451)",
+      "status": "pass",
+      "seconds": 0.0
+    },
+    "9_gitleaks": {
+      "summary": "12:31AM INF no leaks found",
+      "status": "pass",
+      "seconds": 0.9
+    }
+  }
+}

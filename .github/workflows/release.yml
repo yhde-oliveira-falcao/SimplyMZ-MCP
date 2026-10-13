@@ -1,0 +1,63 @@
+# M5.T6: build, publish to TestPyPI, then install from TestPyPI on 3 OSes and smoke-test.
+# One-time setup (human): add this repository as a trusted publisher on test.pypi.org
+# (project "simplymz-mcp", workflow release.yml, environment testpypi).
+name: release
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v7
+        with:
+          python-version: "3.12"
+      - run: uv build
+      - uses: actions/upload-artifact@v7
+        with:
+          name: dist
+          path: dist/
+
+  testpypi:
+    needs: build
+    runs-on: ubuntu-latest
+    environment: testpypi
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/download-artifact@v7
+        with:
+          name: dist
+          path: dist/
+      - uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          repository-url: https://test.pypi.org/legacy/
+
+  smoke:
+    needs: testpypi
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    steps:
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v7
+        with:
+          python-version: "3.12"
+      - name: clean install from TestPyPI (dependencies from PyPI)
+        shell: bash
+        run: |
+          uv venv clean
+          uv pip install --python clean --index-url https://test.pypi.org/simple/ \
+            --extra-index-url https://pypi.org/simple/ --index-strategy unsafe-best-match \
+            simplymz-mcp
+      - name: smoke test over stdio
+        shell: bash
+        run: |
+          if [ -x clean/bin/simplymz-mcp ]; then EXE=clean/bin/simplymz-mcp; else EXE=clean/Scripts/simplymz_mcp.exe; fi
+          uv run --no-project --python clean python scripts/smoke_installed.py "$EXE" tests/fixtures/runs/clean_pos.mzML

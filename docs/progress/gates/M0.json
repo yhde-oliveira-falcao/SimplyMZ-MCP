@@ -1,0 +1,74 @@
+{
+  "milestone": "M0",
+  "status": "pass_with_waivers",
+  "timestamp_utc": "2026-10-04T23:16:17+00:00",
+  "commit": "b3b564b",
+  "worktree_dirty": false,
+  "ci": false,
+  "test_count": 85,
+  "steps": {
+    "1_lint_format": {
+      "summary": "All checks passed!; 46 files already formatted",
+      "status": "pass"
+    },
+    "2_types": {
+      "summary": "Success: no issues found in 15 source files",
+      "status": "pass"
+    },
+    "3_tests_coverage": {
+      "summary": "85 passed / 0 failed / 0 skipped; core coverage 99.4%",
+      "tests": {
+        "total": 85,
+        "passed": 85,
+        "failed": 0,
+        "skipped": 0
+      },
+      "core_coverage_pct": 99.4,
+      "status": "pass"
+    },
+    "4_contract": {
+      "summary": "2 passed in 0.98s",
+      "status": "pass"
+    },
+    "5_acceptance_current": {
+      "summary": "5 passed in 9.12s",
+      "criteria": [
+        "M0-AC1",
+        "M0-AC2",
+        "M0-AC3",
+        "M0-AC4",
+        "M0-AC5"
+      ],
+      "status": "pass"
+    },
+    "6_acceptance_regression": {
+      "summary": "no earlier milestones",
+      "status": "pass"
+    },
+    "7_progress_records": {
+      "summary": "7 tasks VERIFIED; summary present",
+      "human_checks": {
+        "CI run URL recorded for M0": "waived",
+        "0001-feature-detection Accepted by human": "ok",
+        "0002-storage Accepted by human": "ok",
+        "0003-token-budget Accepted by human": "ok",
+        "0004-libraries Accepted by human": "ok",
+        "0005-alignment Accepted by human": "ok",
+        "0006-ledger Accepted by human": "ok",
+        "0007-test-data Accepted by human": "ok"
+      },
+      "waived": [
+        "CI run URL recorded for M0"
+      ],
+      "status": "pass"
+    },
+    "8_test_count": {
+      "summary": "85 tests (previous gate none: 0)",
+      "status": "pass"
+    },
+    "9_gitleaks": {
+      "summary": "11:16PM INF no leaks found",
+      "status": "pass"
+    }
+  }
+}

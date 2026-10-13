@@ -1,0 +1,61 @@
+{
+ "compounds": [
+  {
+   "adduct": "[M+H]+",
+   "area_counts_min": 106446.702,
+   "formula": "C24H38O4",
+   "fwhm_min": 0.25,
+   "height_counts": 400000.0,
+   "ion_mz": 391.284286,
+   "isotopes": [
+    {
+     "mz": 391.284286,
+     "rel": 1.0
+    },
+    {
+     "mz": 392.287694,
+     "rel": 0.265472
+    },
+    {
+     "mz": 393.290603,
+     "rel": 0.042053
+    },
+    {
+     "mz": 394.293382,
+     "rel": 0.004935
+    }
+   ],
+   "name": "dehp_contaminant",
+   "role": "planted",
+   "rt_min": 9.8009,
+   "sigma_min": 0.106165225
+  }
+ ],
+ "content_digest": "7149699c18db567250423d71161382a4a934f5138272042cb37289bb8534ea7a",
+ "dropout_ms1_indices": [],
+ "faults": {
+  "carryover_fraction": 0.0,
+  "carryover_from": [],
+  "contaminant_height": 0.0,
+  "dropout_scans": 0,
+  "dropout_start_scan": null,
+  "intensity_scale": 1.0,
+  "mass_error_ppm": 0.0,
+  "rt_shift_min": 0.0
+ },
+ "file": "batch_qc/blank_02.mzML.gz",
+ "generator_version": "1",
+ "ms2_compounds": [],
+ "n_ms1": 201,
+ "n_ms2": 0,
+ "name": "blank_02",
+ "noise_level_counts": 300.0,
+ "polarity": "positive",
+ "rt_range_min": [
+  0.0,
+  10.0
+ ],
+ "scan_interval_min": 0.05,
+ "seed": 664267189,
+ "sha256": "3a7b48530687907b181a5b788131d33e952d5f76b39e8ce0e56cd7573a44f2c7"
+}

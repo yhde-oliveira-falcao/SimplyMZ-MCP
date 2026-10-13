@@ -1,0 +1,181 @@
+{
+ "compounds": [
+  {
+   "adduct": "[M-H]-",
+   "area_counts_min": 159670.053,
+   "formula": "C6H8O7",
+   "fwhm_min": 0.15,
+   "height_counts": 1000000.0,
+   "ion_mz": 191.019726,
+   "isotopes": [
+    {
+     "mz": 191.019726,
+     "rel": 1.0
+    },
+    {
+     "mz": 192.023154,
+     "rel": 0.068481
+    },
+    {
+     "mz": 193.024292,
+     "rel": 0.016378
+    },
+    {
+     "mz": 194.02748,
+     "rel": 0.001012
+    }
+   ],
+   "name": "citric_acid",
+   "role": "planted",
+   "rt_min": 1.4,
+   "sigma_min": 0.063699135
+  },
+  {
+   "adduct": "[M-H]-",
+   "area_counts_min": 63868.021,
+   "formula": "C5H4N4O3",
+   "fwhm_min": 0.15,
+   "height_counts": 400000.0,
+   "ion_mz": 167.021064,
+   "isotopes": [
+    {
+     "mz": 167.021064,
+     "rel": 1.0
+    },
+    {
+     "mz": 168.023138,
+     "rel": 0.070295
+    },
+    {
+     "mz": 169.025226,
+     "rel": 0.008316
+    },
+    {
+     "mz": 170.027307,
+     "rel": 0.000469
+    }
+   ],
+   "name": "uric_acid",
+   "role": "planted",
+   "rt_min": 2.3,
+   "sigma_min": 0.063699135
+  },
+  {
+   "adduct": "[M-H]-",
+   "area_counts_min": 47901.016,
+   "formula": "C9H11NO3",
+   "fwhm_min": 0.15,
+   "height_counts": 300000.0,
+   "ion_mz": 180.066617,
+   "isotopes": [
+    {
+     "mz": 180.066617,
+     "rel": 1.0
+    },
+    {
+     "mz": 181.069794,
+     "rel": 0.103403
+    },
+    {
+     "mz": 182.071777,
+     "rel": 0.010978
+    },
+    {
+     "mz": 183.074388,
+     "rel": 0.000768
+    }
+   ],
+   "name": "tyrosine",
+   "role": "planted",
+   "rt_min": 3.9,
+   "sigma_min": 0.063699135
+  },
+  {
+   "adduct": "[M-H]-",
+   "area_counts_min": 127736.042,
+   "formula": "C9H9NO3",
+   "fwhm_min": 0.15,
+   "height_counts": 800000.0,
+   "ion_mz": 178.050967,
+   "isotopes": [
+    {
+     "mz": 178.050967,
+     "rel": 1.0
+    },
+    {
+     "mz": 179.054137,
+     "rel": 0.103173
+    },
+    {
+     "mz": 180.056117,
+     "rel": 0.010954
+    },
+    {
+     "mz": 181.058726,
+     "rel": 0.000766
+    }
+   ],
+   "name": "hippuric_acid",
+   "role": "planted",
+   "rt_min": 7.3,
+   "sigma_min": 0.063699135
+  },
+  {
+   "adduct": "[M-H]-",
+   "area_counts_min": 95802.032,
+   "formula": "C12H7Cl3O2",
+   "fwhm_min": 0.15,
+   "height_counts": 600000.0,
+   "ion_mz": 286.943886,
+   "isotopes": [
+    {
+     "mz": 286.943886,
+     "rel": 1.0
+    },
+    {
+     "mz": 287.947264,
+     "rel": 0.131356
+    },
+    {
+     "mz": 288.941046,
+     "rel": 0.971908
+    },
+    {
+     "mz": 289.944366,
+     "rel": 0.126914
+    }
+   ],
+   "name": "triclosan",
+   "role": "planted",
+   "rt_min": 9.2,
+   "sigma_min": 0.063699135
+  }
+ ],
+ "content_digest": "496d6ef207994d60611e67054fb5198732845783c756447f88e784b3018c5c38",
+ "dropout_ms1_indices": [],
+ "faults": {
+  "carryover_fraction": 0.0,
+  "carryover_from": [],
+  "contaminant_height": 0.0,
+  "dropout_scans": 0,
+  "dropout_start_scan": null,
+  "intensity_scale": 1.0,
+  "mass_error_ppm": 0.0,
+  "rt_shift_min": 0.0
+ },
+ "file": "runs/clean_neg.mzML.gz",
+ "generator_version": "1",
+ "ms2_compounds": [],
+ "n_ms1": 201,
+ "n_ms2": 0,
+ "name": "clean_neg",
+ "noise_level_counts": 300.0,
+ "polarity": "negative",
+ "rt_range_min": [
+  0.0,
+  10.0
+ ],
+ "scan_interval_min": 0.05,
+ "seed": 2291051793,
+ "sha256": "69117917fb04b68d095023da0c28cef1b42374ce442a2a1687e284cf421f9aae"
+}

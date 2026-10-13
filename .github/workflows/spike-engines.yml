@@ -1,0 +1,33 @@
+# M0.T6 throwaway spike: can the optional feature-detection engines install cleanly?
+# Run manually from the Actions tab; results feed ADR 0001.
+name: spike-engines
+
+on:
+  workflow_dispatch:
+
+jobs:
+  spike:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        engine: [pyopenms, asari-metabolomics]
+    steps:
+      - uses: astral-sh/setup-uv@v7
+        with:
+          python-version: "3.12"
+      - name: install ${{ matrix.engine }}
+        shell: bash
+        run: |
+          uv venv spike
+          start=$(date +%s)
+          uv pip install --python spike ${{ matrix.engine }}
+          end=$(date +%s)
+          echo "install_seconds=$((end-start))" | tee -a "$GITHUB_STEP_SUMMARY"
+          du -sh spike | tee -a "$GITHUB_STEP_SUMMARY"
+      - name: import
+        shell: bash
+        run: |
+          mod=$([ "${{ matrix.engine }}" = "pyopenms" ] && echo pyopenms || echo asari)
+          uv run --python spike python -c "import $mod; print('$mod OK')" | tee -a "$GITHUB_STEP_SUMMARY"

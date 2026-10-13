@@ -1,0 +1,96 @@
+[project]
+name = "simplymz-mcp"
+version = "0.1.0.dev0"
+description = "MCP server that lets AI assistants inspect LC-MS/GC-MS runs (mzML) with deterministic tools and an evidence ledger."
+readme = "README.md"
+license = "GPL-3.0-or-later"
+license-files = ["LICENSE"]
+authors = [{ name = "Yuri Falcao" }]
+requires-python = ">=3.11"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering :: Chemistry",
+]
+# Core deps only. Heavy engines (pyOpenMS, asari) stay optional extras (ADR 0001).
+dependencies = [
+    "mcp>=2.3,<3",
+    "numpy>=2.0,<3",
+    "pyteomics>=5.0,<6",
+    "lxml>=5.0,<7",
+    "scipy>=1.13,<2",
+    "pyarrow>=17,<25",
+    # pyteomics needs psims to parse mzML (PSI controlled vocabulary); without it a clean
+    # install could not read any file (found in Final Verification, 2026-10-06).
+    "psims>=1.4,<2",
+]
+
+[project.optional-dependencies]
+fixtures = ["psims>=1.4,<2"]
+
+[project.scripts]
+simplymz-mcp = "simplymz_mcp.server:main"
+
+[dependency-groups]
+dev = [
+    "psims>=1.4,<2",
+    "pytest>=9.0,<10",
+    "pytest-cov>=7.0,<8",
+    "anyio>=4.0,<5",
+    "hypothesis>=6.100,<7",
+    "jsonschema>=4.20,<5",
+    "ruff>=0.16,<0.17",
+    "mypy>=2.0,<3",
+    "pre-commit>=4.0,<5",
+]
+
+[build-system]
+requires = ["uv_build>=0.11.7,<0.12.0"]
+build-backend = "uv_build"
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "SIM", "T20", "RUF"]
+# T20 bans print(): stdout is the MCP transport.
+
+[tool.ruff.lint.per-file-ignores]
+"scripts/*" = ["T20"]
+"tests/*" = ["T20"]
+"eval/*" = ["T20"]
+
+[tool.mypy]
+python_version = "3.11"
+files = ["src"]
+warn_unused_ignores = true
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = ["simplymz_mcp.core.*"]
+strict = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra --strict-markers"
+markers = [
+    "network: needs internet access (opt-in)",
+    "slow: long-running",
+    "e2e: end-to-end MCP client/server tests",
+    "acceptance: one test per milestone acceptance criterion",
+    "eval: evaluation harness",
+]
+
+[tool.coverage.run]
+source = ["simplymz_mcp"]
+branch = true
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true
+
+[[tool.mypy.overrides]]
+# pyarrow.parquet ships without type hints
+module = ["simplymz_mcp.state.*"]
+disallow_untyped_calls = false
