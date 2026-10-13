@@ -15,12 +15,12 @@ Next action: M5 gate; then Final Verification. Human: run eval/llm_eval.py with 
 - [x] CI evidence for M0 (recorded 2026-10-12; gates still to be re-run and tagged) (replace the waiver below with a line `CI evidence M0: https://github.com/<user>/<repo>/actions/runs/<id>`, then re-run `verify.py M0` and tag `m0-verified`)
 - [ ] spike-engines workflow on macOS/Windows; paste results into docs/spike/M0_engines.md
 
-CI evidence M0: https://github.com/yhde-oliveira-falcao/simplymz-mcp/actions/runs/38318114530
-CI evidence M1: https://github.com/yhde-oliveira-falcao/simplymz-mcp/actions/runs/38318114530
-CI evidence M2: https://github.com/yhde-oliveira-falcao/simplymz-mcp/actions/runs/38318114530
-CI evidence M3: https://github.com/yhde-oliveira-falcao/simplymz-mcp/actions/runs/38318114530
-CI evidence M4: https://github.com/yhde-oliveira-falcao/simplymz-mcp/actions/runs/38318114530
-CI evidence M5: https://github.com/yhde-oliveira-falcao/simplymz-mcp/actions/runs/38318114530
+CI evidence M0: https://github.com/yhde-oliveira-falcao/simplymz-mcp/actions/runs/38340603843
+CI evidence M1: https://github.com/yhde-oliveira-falcao/simplymz-mcp/actions/runs/38340603843
+CI evidence M2: https://github.com/yhde-oliveira-falcao/simplymz-mcp/actions/runs/38340603843
+CI evidence M3: https://github.com/yhde-oliveira-falcao/simplymz-mcp/actions/runs/38340603843
+CI evidence M4: https://github.com/yhde-oliveira-falcao/simplymz-mcp/actions/runs/38340603843
+CI evidence M5: https://github.com/yhde-oliveira-falcao/simplymz-mcp/actions/runs/38340603843
 
 ## Naming (2026-10-12)
 Project name is SimplyMZ (see CHANGELOG). Fixtures regenerated (they embed
