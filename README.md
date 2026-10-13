@@ -136,6 +136,7 @@ per-record licences (`scripts/download_library.py`). See [docs/data.md](docs/dat
 
 | Document | What it covers |
 |---|---|
+| [User guide (PDF)](docs/guide/SimplyMZ_User_Guide.pdf) | Illustrated walkthrough: setup, the six use cases on the sample files, specifications, troubleshooting |
 | [docs/tools.md](docs/tools.md) | All 19 tools: schemas, examples, token budgets; prompts and resources |
 | [docs/data.md](docs/data.md) | Sample data, the public dataset, MassBank download, licences |
 | [docs/adr/](docs/adr/) | Design decisions (feature engine, storage, budgets, libraries, ledger, precision, matching) |
