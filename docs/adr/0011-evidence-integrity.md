@@ -1,6 +1,6 @@
 # ADR 0011: Bind reported values, identification evidence and batch denominators
 
-Status: Proposed
+Status: Accepted · Date: 2026-11-08 · Accepted by Yuri Falcao (chat, 2026-11-08)
 
 ## Context
 The report guard previously accepted a number if it occurred anywhere in referenced
