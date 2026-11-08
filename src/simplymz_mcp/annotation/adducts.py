@@ -58,6 +58,30 @@ ADDUCTS: dict[str, Adduct] = {
 }
 
 
+def normalize_adduct(name: str | None) -> str | None:
+    """Map common library spellings to a supported adduct name, else None. Pure.
+
+    Accepts the canonical form ("[M+H]+") and frequent MSP/MGF variants: no brackets
+    ("M+H"), no charge ("[M+H]") or an explicit unit charge ("[M+H]1+"). A charge is
+    inferred only when exactly one supported adduct matches. Unknown names return None.
+    """
+    s = (name or "").strip().replace(" ", "")
+    if not s:
+        return None
+    if s in ADDUCTS:
+        return s
+    if not s.startswith("["):
+        s = f"[{s}]" if "]" not in s else f"[{s}"
+    core, _, charge = s.partition("]")
+    core += "]"
+    charge = {"1+": "+", "1-": "-"}.get(charge, charge)
+    if charge:
+        return core + charge if core + charge in ADDUCTS else None
+    charges = {"+", "-", "2+", "2-"}
+    matches = [n for n in ADDUCTS if n.startswith(core) and n[len(core) :] in charges]
+    return matches[0] if len(matches) == 1 else None
+
+
 def valid_for(polarity: str) -> list[str]:
     sign = 1 if polarity == "positive" else -1
     return [n for n, a in ADDUCTS.items() if a.charge * sign > 0]

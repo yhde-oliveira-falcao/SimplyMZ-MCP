@@ -6,6 +6,8 @@
 - Bind combined identification evidence to one run hash and retention-time window
   (0.15 min), with compatible scan polarities and adducts. Recompute older evidence
   without feature context before combining it. Confidence ruleset is now version 2.
+  Library adduct spellings such as `[M+H]` or `M+H` are normalized; unrecognized
+  spellings count as an unknown adduct instead of failing `assign_confidence`.
 - Preserve the full batch roster in aligned tables and group comparisons, including
   samples with no detected features; disclose empty runs and impute their missing areas.
   Existing tables recover their roster from the stored batch. Use full relative paths

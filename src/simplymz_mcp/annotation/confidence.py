@@ -11,7 +11,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from simplymz_mcp.annotation.adducts import get_adduct
+from simplymz_mcp.annotation.adducts import get_adduct, normalize_adduct
 from simplymz_mcp.core.errors import ErrorCode, SimplyMZError
 
 RULESET_VERSION = "simplymz-confidence-2"
@@ -94,7 +94,9 @@ def validate_feature(records: list[dict[str, Any]]) -> None:
         passing = [h for h in r["result"]["data"].get("hits", []) if h["passes"]]
         if not passing:
             continue
-        hit_adduct = passing[0].get("adduct")
+        # Library files spell adducts loosely ("[M+H]", "M+H"); unknown spellings are
+        # treated as an unknown adduct rather than raising.
+        hit_adduct = normalize_adduct(passing[0].get("adduct"))
         if adducts and (not hit_adduct or hit_adduct not in adducts):
             reject("Library and formula evidence have incompatible or unknown adducts.")
         if hit_adduct:

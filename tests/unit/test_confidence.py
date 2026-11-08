@@ -129,3 +129,43 @@ def test_library_only_hit_cannot_conflict_with_scan_polarity() -> None:
     records[1]["result"]["data"]["hits"][0]["adduct"] = "[M-H]-"
     with pytest.raises(SimplyMZError):
         validate_feature([records[1]])
+
+
+@pytest.mark.parametrize("adduct", ["[M+H]", "M+H", "[M+H]1+", " [M+H]+ "])
+def test_common_library_adduct_spellings_are_normalized(adduct: str) -> None:
+    # MSP/MGF files often omit brackets or the charge; these must not crash or reject.
+    records = _bound_records()
+    records[1]["result"]["data"]["hits"][0]["adduct"] = adduct
+    validate_feature([records[1]])  # library-only evidence
+    validate_feature(records)  # combined with [M+H]+ formula evidence
+
+
+@pytest.mark.parametrize("adduct", ["[M+Foo]+", "garbage"])
+def test_unknown_library_adduct_is_allowed_alone_but_not_combined(adduct: str) -> None:
+    records = _bound_records()
+    records[1]["result"]["data"]["hits"][0]["adduct"] = adduct
+    validate_feature([records[1]])
+    with pytest.raises(SimplyMZError):
+        validate_feature(records)
+
+
+@pytest.mark.parametrize(
+    ("raw", "expected"),
+    [
+        ("[M+H]+", "[M+H]+"),
+        ("[M+H]", "[M+H]+"),
+        ("M+H", "[M+H]+"),
+        ("[M-H]", "[M-H]-"),
+        ("M-H]-", "[M-H]-"),
+        ("[M+H]1+", "[M+H]+"),
+        ("[M+2H]", "[M+2H]2+"),
+        ("[M+H]-", None),
+        ("[M+Foo]+", None),
+        ("", None),
+        (None, None),
+    ],
+)
+def test_normalize_adduct(raw: str | None, expected: str | None) -> None:
+    from simplymz_mcp.annotation.adducts import normalize_adduct
+
+    assert normalize_adduct(raw) == expected
