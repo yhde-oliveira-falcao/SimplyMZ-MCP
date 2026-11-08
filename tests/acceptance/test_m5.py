@@ -39,7 +39,7 @@ async def test_M5_AC1_untraceable_numbers_rejected_valid_report_traces(tmp_path:
             f"Overall verdict {{{ev}:data.overall}}; RT drift "
             f"{{{ev}:data.metrics.rt_drift_min.value}} min (fail above "
             f"{{{ev}:data.metrics.rt_drift_min.fail}}), mass error "
-            f"{{{ev}:data.metrics.mass_error_ppm.value}} ppm across 11 runs."
+            f"{{{ev}:data.metrics.mass_error_ppm.value}} ppm across {{{ev}:data.n_runs}} runs."
         )
         good = await _call(
             client,

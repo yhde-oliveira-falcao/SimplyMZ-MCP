@@ -76,9 +76,12 @@ def test_traceable_at_written_precision() -> None:
 
 
 def test_slots_filled_from_ledger_and_numbers_traced() -> None:
-    r = _build(f"RT drift was {{{EV1}:data.metrics.rt_drift_min.value}} min over 11 runs.")
+    r = _build(
+        f"RT drift was {{{EV1}:data.metrics.rt_drift_min.value}} min "
+        f"over {{{EV1}:data.n_runs}} runs."
+    )
     assert "RT drift was 0.0123 min over 11 runs." in r.markdown
-    assert r.slots_filled == 1 and r.numbers_checked == 1 and r.referenced == [EV1]
+    assert r.slots_filled == 2 and r.numbers_checked == 0 and r.referenced == [EV1]
 
 
 def test_invented_number_is_rejected_and_listed() -> None:
@@ -91,7 +94,8 @@ def test_invented_number_is_rejected_and_listed() -> None:
 def test_numbers_need_referenced_evidence() -> None:
     with pytest.raises(ReportError):
         _build("Area 106446.702 counts*min.")  # true value, but EV2 not referenced
-    assert _build("Area 106446.702 counts*min.", [EV2]).numbers_checked == 1
+    with pytest.raises(ReportError):
+        _build("Area 106446.702 counts*min.", [EV2])  # unrelated numeric equality is insufficient
 
 
 @pytest.mark.parametrize(
@@ -129,11 +133,9 @@ POOL = [0.0123, 11.0, 3.5, 7.0, 106446.702]
     st.lists(
         st.sampled_from(
             [
-                "0.0123",
-                "11",
-                "3.5",
-                "7",
-                "106446.702",
+                f"{{{EV1}:data.metrics.rt_drift_min.value}}",
+                f"{{{EV1}:data.ids[0]}}",
+                f"{{{EV1}:data.ids[1]}}",
                 f"{{{EV1}:data.n_runs}}",
                 f"{{{EV2}:data.area_counts_min}}",
             ]
@@ -160,3 +162,52 @@ def test_sentence_ending_numbers_are_caught() -> None:
     assert narrative_numbers("Recovery was 97.2. Then 4 runs.") == ["97.2", "4"]
     with pytest.raises(ReportError):
         _build("Recovery was 97.2.")
+
+
+@pytest.mark.parametrize("where", ["title", "heading", "body", "code"])
+def test_literal_numbers_rejected_everywhere(where: str) -> None:
+    title, heading, body = "Report", "Results", "No measurement."
+    if where == "title":
+        title = "Effect 99999"
+    elif where == "heading":
+        heading = "Effect 99999"
+    elif where == "code":
+        body = "Effect `99999`."
+    else:
+        body = "Effect 99999."
+    with pytest.raises(ReportError, match="99999"):
+        build(title, [Section(heading, body)], [EV1], LEDGER.get)
+
+
+def test_sign_is_not_interchangeable_and_literals_need_slots() -> None:
+    assert not traceable("-2.5", [2.5])
+    assert not traceable("2.5", [-2.5])
+    with pytest.raises(ReportError):
+        _build("Effect -3.5.", [EV1])
+
+
+def test_slots_in_title_heading_and_code_are_resolved() -> None:
+    slot = f"{{{EV1}:data.n_runs}}"
+    rep = build(
+        f"Report over {slot} runs", [Section(f"Runs {slot}", f"Count `{slot}`.")], [], LEDGER.get
+    )
+    assert rep.title == "Report over 11 runs"
+    assert "## Runs 11" in rep.markdown and "`11`" in rep.markdown
+    assert rep.slots_filled == 3 and rep.referenced == [EV1]
+
+
+@pytest.mark.parametrize("sign", ["-", "+", "\u2212"])
+def test_literal_sign_cannot_modify_a_numeric_slot(sign: str) -> None:
+    with pytest.raises(ReportError, match="sign"):
+        _build(f"Effect {sign}{{{EV1}:data.ids[0]}}.")
+
+
+@pytest.mark.parametrize("where", ["title", "heading"])
+def test_list_marker_exemption_does_not_apply_to_titles(where: str) -> None:
+    with pytest.raises(ReportError, match="99999"):
+        build(
+            "99999. Report" if where == "title" else "Report",
+            [Section("99999. Result" if where == "heading" else "Result", "Text")],
+            [],
+            LEDGER.get,
+        )

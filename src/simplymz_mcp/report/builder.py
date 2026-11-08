@@ -1,12 +1,11 @@
 """Report builder with a number guard (plan M5.T1, ADR 0006).
 
-Numbers enter a report in exactly two ways:
-1. slots ``{ev:<ULID>:<path>}`` (e.g. ``{ev:01J...:data.metrics.rt_drift_min.value}``),
-   filled from the ledger entry's stored result;
-2. numbers written in the narrative that also occur in a referenced ledger entry's result
-   (compared at the precision written: "4.4" matches 4.4012).
-Any other numeric token is rejected and listed. Numbers inside identifiers (formulas such
-as C8H10N4O2, adducts such as [M+H]+, "13C", "M+1", ULIDs) and ordered-list markers are not
+Measurements enter a report only through slots ``{ev:<ULID>:<path>}`` (e.g.
+``{ev:01J...:data.metrics.rt_drift_min.value}``), filled from the ledger entry's
+stored result. Literal numeric tokens are rejected even if the same value occurs in
+another ledger field. This applies to titles, headings, and inline code too.
+Numbers inside identifiers (formulas such as C8H10N4O2, adducts such as [M+H]+,
+"13C", "M+1", ULIDs) and ordered-list markers are not
 treated as measurements. Every referenced entry's ``limits`` are carried into the report so
 precision notes (ADR 0008) and engine notes (ADR 0009) stay next to the numbers.
 """
@@ -106,12 +105,12 @@ def traceable(tok: str, pool: Iterable[float]) -> bool:
     if "e" in tok.lower():
         sig = len(tok.lower().split("e")[0].lstrip("+-").replace(".", "").lstrip("0")) or 1
         return any(float(f"{p:.{sig - 1}e}") == float(f"{v:.{sig - 1}e}") for p in pool)
-    return any(round(p, d) == round(v, d) or round(abs(p), d) == round(abs(v), d) for p in pool)
+    return any(round(p, d) == round(v, d) for p in pool)
 
 
-def narrative_numbers(text: str) -> list[str]:
-    text = LIST_MARKER.sub(" ", text)
-    text = re.sub(r"`[^`]*`", " ", text)  # inline code is quoted, not measured
+def narrative_numbers(text: str, *, ordered_lists: bool = True) -> list[str]:
+    if ordered_lists:
+        text = LIST_MARKER.sub(" ", text)
     return [t for t in NUMBER.findall(text) if _is_number(t)]
 
 
@@ -122,8 +121,8 @@ def build(
     get_record: Callable[[str], dict[str, Any] | None],
 ) -> Report:
     referenced: list[str] = list(dict.fromkeys(evidence))
-    for s in sections:
-        for ev, _ in SLOT.findall(s.body):
+    for text in [title, *[t for s in sections for t in (s.heading, s.body)]]:
+        for ev, _ in SLOT.findall(text):
             if ev not in referenced:
                 referenced.append(ev)
     records: dict[str, dict[str, Any]] = {}
@@ -135,7 +134,6 @@ def build(
                 "Reference provenance_ids returned by tools in this SimplyMZ instance.",
             )
         records[ev] = rec
-    pool = [n for rec in records.values() for n in numbers_in(rec["result"])]
     filled = 0
     out_sections = []
     bad: list[str] = []
@@ -156,22 +154,36 @@ def build(
                 f"Slot {{{ev}:{path}}} points to a structure, not a value.",
                 "Point the slot at a single number or string.",
             )
+        if (
+            isinstance(value, int | float)
+            and not isinstance(value, bool)
+            and m.start() > 0
+            and m.string[m.start() - 1] in "+-\u2212"
+        ):
+            raise ReportError(
+                "A numeric evidence slot cannot be prefixed with a literal sign.",
+                "Use the signed value from the ledger without modifying its sign.",
+            )
         filled += 1
         return fmt(value)
 
+    def render(text: str, *, ordered_lists: bool = False) -> str:
+        nonlocal checked
+        tokens = narrative_numbers(SLOT.sub(" ", text), ordered_lists=ordered_lists)
+        checked += len(tokens)
+        bad.extend(tokens)
+        return SLOT.sub(fill, text)
+
+    rendered_title = render(title)
     for s in sections:
-        narrative = SLOT.sub(" ", s.body)
-        for tok in narrative_numbers(narrative) + narrative_numbers(s.heading):
-            checked += 1
-            if not traceable(tok, pool):
-                bad.append(tok)
-        out_sections.append((s.heading, SLOT.sub(fill, s.body)))
+        out_sections.append((render(s.heading), render(s.body, ordered_lists=True)))
     if bad:
         raise ReportError(
-            f"Number guard: {len(bad)} number(s) in the narrative are not in any referenced "
-            "ledger entry: " + ", ".join(sorted(set(bad), key=bad.index)) + ".",
-            "Replace them with {ev:<id>:<path>} slots, reference the evidence that contains "
-            "them, or remove them.",
+            f"Number guard: {len(bad)} literal number(s) must use explicit ledger slots: "
+            + ", ".join(sorted(set(bad), key=bad.index))
+            + ".",
+            "Replace them with {ev:<id>:<path>} slots pointing to the relevant metric, "
+            "or remove them.",
             bad,
         )
     disclosures: list[str] = []
@@ -179,7 +191,7 @@ def build(
         for lim in records[ev]["result"].get("limits", []):
             if lim not in disclosures:
                 disclosures.append(lim)
-    md = [f"# {title}", ""]
+    md = [f"# {rendered_title}", ""]
     for heading, body in out_sections:
         md += [f"## {heading}", "", body.strip(), ""]
     if disclosures:
@@ -200,7 +212,7 @@ def build(
     if versions:
         md += ["", "Software: " + ", ".join(f"{k} {v}" for k, v in sorted(versions.items()))]
     md += ["", "Parameters of each tool call are stored in the ledger under the evidence id."]
-    return Report(title, "\n".join(md) + "\n", referenced, filled, checked, disclosures)
+    return Report(rendered_title, "\n".join(md) + "\n", referenced, filled, checked, disclosures)
 
 
 def to_html(markdown: str, title: str) -> str:

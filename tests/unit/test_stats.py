@@ -58,3 +58,34 @@ def test_blank_filter_presence_filter_and_imputation() -> None:
     assert row["cid"] == "GAPPY" and row["imputed"] == 1  # a3 filled with 45 (half of 90)
     assert row["mean_a"] == pytest.approx((100 + 90 + 45) / 3, rel=1e-3)
     assert res["n_a"] == 3 and res["n_b"] == 3
+
+
+def test_empty_run_retained_in_counts_presence_and_imputation() -> None:
+    members, consensus = _members({"C1": {"a1": 100.0, "a2": 90.0, "b1": 400.0, "b2": 420.0}})
+    roster = [
+        {"run": run, "sample_type": "sample", "group": group}
+        for run, group in [("a1", "A"), ("a2", "A"), ("a3", "A"), ("b1", "B"), ("b2", "B")]
+    ]
+    result = compare_groups(members, consensus, "A", "B", sample_roster=roster)
+    assert (result["n_a"], result["n_b"]) == (3, 2)
+    assert result["empty_sample_runs"] == ["a3"]
+    row = result["ranked"][0]
+    assert row["imputed"] == 1
+    assert row["mean_a"] == pytest.approx((100 + 90 + 45) / 3, rel=1e-3)
+    # At full presence, the completely missing A sample changes eligibility.
+    a_only, info = _members({"C1": {"a1": 100.0, "a2": 90.0}})
+    filtered = compare_groups(a_only, info, "A", "B", min_presence=1, sample_roster=roster)
+    assert filtered["removed_presence"] == 1 and filtered["ranked"] == []
+
+
+def test_completely_empty_group_and_table_keep_roster() -> None:
+    members, consensus = _members({"C1": {"a1": 100.0, "a2": 90.0}})
+    roster = [
+        {"run": run, "sample_type": "sample", "group": group}
+        for run, group in [("a1", "A"), ("a2", "A"), ("b1", "B"), ("b2", "B")]
+    ]
+    result = compare_groups(members, consensus, "A", "B", sample_roster=roster)
+    assert result["n_b"] == 2 and result["ranked"][0]["imputed"] == 2
+    empty = compare_groups([], [], "A", "B", sample_roster=roster)
+    assert empty["n_a"] == empty["n_b"] == 2
+    assert empty["ranked"] == [] and len(empty["empty_sample_runs"]) == 4

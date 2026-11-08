@@ -32,6 +32,7 @@ def compare_groups(
     group_b: str,
     blank_fold: float = 3.0,
     min_presence: float = 0.5,
+    sample_roster: list[dict[str, Any]] | None = None,
 ) -> dict[str, Any]:
     """Per consensus feature: blank filter, presence filter, imputation, Welch t on log2.
 
@@ -44,7 +45,11 @@ def compare_groups(
       area;
     * log2 fold change = log2(mean B / mean A); Welch t-test on log2 areas; BH FDR.
     """
-    kinds = {m["run"]: (m["sample_type"], m["group"]) for m in members}
+    # The batch roster includes runs with no feature rows at all. Direct callers may
+    # omit it for compatibility, but persisted batch comparisons always supply it.
+    roster = members if sample_roster is None else sample_roster
+    kinds = {m["run"]: (m["sample_type"], m["group"]) for m in roster}
+    detected_runs = {m["run"] for m in members if m["sample_type"] == "sample"}
     runs_a = sorted(r for r, (t, g) in kinds.items() if t == "sample" and g == group_a)
     runs_b = sorted(r for r, (t, g) in kinds.items() if t == "sample" and g == group_b)
     by_cid: dict[str, dict[str, float]] = {}
@@ -103,6 +108,7 @@ def compare_groups(
         "ranked": rows,
         "n_a": len(runs_a),
         "n_b": len(runs_b),
+        "empty_sample_runs": sorted(set(runs_a + runs_b) - detected_runs),
         "n_tested": len(tested),
         "removed_blank": removed_blank,
         "removed_presence": removed_presence,

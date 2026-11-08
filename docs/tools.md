@@ -30,7 +30,9 @@ Every tool returns the envelope `{status, verdict, data, limits, next_steps, pro
 
 Identification confidence level (Schymanski 1-5) from evidence: provenance_ids
 of propose_formulas and match_spectrum results for the same feature. The level is
-computed by a versioned rule table and cannot be set by the caller.
+computed by a versioned rule table and cannot be set by the caller. Combining
+records requires the same run hash, RT within 0.15 min, and compatible polarity
+and adducts. Recompute older evidence that lacks feature context.
 
 Token budget: 900
 
@@ -240,8 +242,8 @@ Example input (`<run>`/`<chrom>` stand for handles from earlier calls):
 ## `export_report`
 
 Write a Markdown/HTML report. Put numbers in {ev:<id>:<path>} slots (e.g.
-{ev:01J...:data.metrics.rt_drift_min.value}); any other number in the text must
-appear in a referenced ledger entry or the report is rejected (number guard).
+{ev:01J...:data.metrics.rt_drift_min.value}). Literal numbers are rejected,
+including in titles, headings and inline code; use a slot for each measurement.
 Limits of every referenced result are carried into the report automatically.
 
 Token budget: 800

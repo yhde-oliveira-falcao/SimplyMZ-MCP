@@ -63,8 +63,12 @@ async def test_identification_ladder_on_ms2_fixture(root: Path) -> None:
             "library_handle"
         ]
         for c in truth["compounds"]:
-            form, _, conf = await identify(client, run, lib, c)
+            form, match, conf = await identify(client, run, lib, c)
             assert form["data"]["isotope_data"]
+            fc, mc = form["data"]["feature_context"], match["data"]["feature_context"]
+            assert fc["run_sha256"] == mc["run_sha256"]
+            assert abs(fc["rt_min"] - mc["rt_min"]) <= 0.15
+            assert fc["polarity"] == mc["polarity"] == 1
             consistent = [x["formula"] for x in form["data"]["candidates"] if not x["rejected"]]
             assert c["formula"] in consistent, c["name"]
             assert conf["status"] == "ok"
@@ -102,3 +106,49 @@ async def test_identification_errors(root: Path) -> None:
             "assign_confidence", {"evidence": [f1["provenance_id"]], "level": 1}
         )
         assert forged.is_error and "level" in forged.content[0].text
+
+
+@pytest.mark.anyio
+@pytest.mark.parametrize("mismatch", ["run_sha256", "rt_min", "polarity", "adduct", "legacy"])
+async def test_assign_confidence_rejects_mixed_feature_evidence(
+    tmp_path: Path, mismatch: str
+) -> None:
+    server, _ = build_server(Config(root=tmp_path))
+    app = server.app
+    context = {"run_sha256": "run-a", "rt_min": 4.4, "polarity": 1}
+    formula = {
+        "data": {
+            "mz": 195.0877,
+            "adduct": "[M+H]+",
+            "feature_context": dict(context),
+            "isotope_data": False,
+            "unequivocal": False,
+            "candidates": [],
+        },
+        "status": "ok",
+    }
+    match = {
+        "data": {
+            "query": {"precursor_mz": 195.0877},
+            "feature_context": dict(context),
+            "hits": [{"passes": True, "adduct": "[M+H]+"}],
+        },
+        "status": "ok",
+    }
+    if mismatch == "adduct":
+        match["data"]["hits"][0]["adduct"] = "[M+Na]+"
+    elif mismatch == "legacy":
+        del formula["data"]["feature_context"]
+    else:
+        match["data"]["feature_context"][mismatch] = {
+            "run_sha256": "run-b",
+            "rt_min": 8.0,
+            "polarity": -1,
+        }[mismatch]
+    evs = [
+        app.ledger.record("propose_formulas", {}, formula),
+        app.ledger.record("match_spectrum", {}, match),
+    ]
+    async with Client(server) as client:
+        result = await _call(client, "assign_confidence", evidence=evs)
+    assert result["status"] == "error" and result["error"]["code"] == "INVALID_ARGUMENT"

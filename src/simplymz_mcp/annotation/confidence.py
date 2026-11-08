@@ -11,7 +11,10 @@ from __future__ import annotations
 
 from typing import Any
 
-RULESET_VERSION = "simplymz-confidence-1"
+from simplymz_mcp.annotation.adducts import get_adduct
+from simplymz_mcp.core.errors import ErrorCode, SimplyMZError
+
+RULESET_VERSION = "simplymz-confidence-2"
 NEAR_MISS_SCORE = 0.5
 SAME_FEATURE_PPM = 10.0
 LABELS = {
@@ -49,6 +52,64 @@ def evidence_mz(rec: dict[str, Any]) -> float:
     if rec["op"] == "propose_formulas":
         return float(data["mz"])
     return float(data["query"]["precursor_mz"])
+
+
+SAME_FEATURE_RT_MIN = 0.15
+
+
+def validate_feature(records: list[dict[str, Any]]) -> None:
+    """Fail closed when evidence cannot be attributed to one chromatographic feature.
+
+    Single mass-only formula calls remain useful, but cannot be combined with other
+    evidence without a run and selected scan. Old ledger records must be recomputed.
+    """
+    contexts = [r["result"]["data"].get("feature_context") for r in records]
+
+    def reject(message: str) -> None:
+        raise SimplyMZError(
+            ErrorCode.INVALID_ARGUMENT,
+            message,
+            "Recompute evidence for one run and peak (give run_handle and rt_min); "
+            "use compatible polarity and adducts.",
+        )
+
+    if len(records) > 1:
+        if any(not c for c in contexts):
+            reject("Combined evidence needs run and retention-time context on every record.")
+        bound = [c for c in contexts if c]
+        if len({c["run_sha256"] for c in bound}) != 1:
+            reject("Evidence refers to different runs.")
+        rts = [c["rt_min"] for c in bound]
+        if max(rts) - min(rts) > SAME_FEATURE_RT_MIN:
+            reject("Evidence refers to different retention-time peaks.")
+        if len({c["polarity"] for c in bound if c["polarity"]}) > 1:
+            reject("Evidence has conflicting scan polarities.")
+
+    adducts = {r["result"]["data"]["adduct"] for r in records if r["op"] == "propose_formulas"}
+    if len(adducts) > 1:
+        reject("Formula evidence uses different adducts.")
+    for r, context in zip(records, contexts, strict=True):
+        if r["op"] != "match_spectrum":
+            continue
+        passing = [h for h in r["result"]["data"].get("hits", []) if h["passes"]]
+        if not passing:
+            continue
+        hit_adduct = passing[0].get("adduct")
+        if adducts and (not hit_adduct or hit_adduct not in adducts):
+            reject("Library and formula evidence have incompatible or unknown adducts.")
+        if hit_adduct:
+            adducts.add(hit_adduct)
+        elif len(records) > 1:
+            reject("Combined evidence includes a library hit with an unknown adduct.")
+        if len(adducts) > 1:
+            reject("Library and formula evidence use different adducts.")
+        if (
+            hit_adduct
+            and context
+            and context["polarity"]
+            and get_adduct(hit_adduct).charge * context["polarity"] < 0
+        ):
+            reject("Library hit conflicts with the selected scan polarity.")
 
 
 def evaluate(records: list[dict[str, Any]]) -> dict[str, Any]:

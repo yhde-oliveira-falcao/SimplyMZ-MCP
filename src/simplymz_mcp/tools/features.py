@@ -113,13 +113,13 @@ def register(server: MCPServer, registry: Registry, app: App) -> None:
             res = _detect_one(
                 e["run_handle"], params, ctx, 0.85 * n / len(entries), 0.85 * (n + 1) / len(entries)
             )
-            label = PurePosixPath(e["file"]).name
+            label = e["file"]
             mono = [f for f in res["features"] if f["isotope_of"] is None]
             per_run.append((label, mono))
             counts[label] = len(mono)
         ctx.progress(0.9, "aligning")
         al = align(per_run, ppm_tol=mz_tol_ppm, rt_tol=align_rt_tol_min)
-        info = {PurePosixPath(e["file"]).name: e for e in entries}
+        info = {e["file"]: e for e in entries}
         consensus, members = [], []
         for c in al["consensus"]:
             consensus.append(
@@ -151,7 +151,14 @@ def register(server: MCPServer, registry: Registry, app: App) -> None:
             _key(ftab),
             consensus,
             members,
-            {"params": {**params.as_dict(), **al["params"]}, "runs": [lbl for lbl, _ in per_run]},
+            {
+                "params": {**params.as_dict(), **al["params"]},
+                "runs": [lbl for lbl, _ in per_run],
+                "sample_roster": [
+                    {"run": label, "sample_type": e["sample_type"], "group": e["group"]}
+                    for label, e in info.items()
+                ],
+            },
         )
         area_sum: dict[str, float] = {}
         for m in members:
@@ -375,8 +382,25 @@ def register(server: MCPServer, registry: Registry, app: App) -> None:
                 "Argument out of range.",
                 "top_n 1-25, blank_fold >= 1, min_presence in (0, 1].",
             )
-        consensus, members, _ = tables.load_aligned(_key(ftab_handle))
-        groups = sorted({m["group"] for m in members if m["sample_type"] == "sample"})
+        consensus, members, ameta = tables.load_aligned(_key(ftab_handle))
+        roster = ameta.get("sample_roster")
+        if roster is None:  # tables created before the roster was persisted
+            batch = app.store.get(meta["batch_handle"], "batch")
+            roster = [
+                {
+                    "run": PurePosixPath(e["file"]).name,
+                    "sample_type": e["sample_type"],
+                    "group": e["group"],
+                }
+                for e in batch["entries"]
+            ]
+            if len({e["run"] for e in roster}) != len(roster):
+                raise SimplyMZError(
+                    ErrorCode.INVALID_ARGUMENT,
+                    "This legacy table has ambiguous run basenames.",
+                    "Run detect_features(batch_handle=...) again to preserve distinct run paths.",
+                )
+        groups = sorted({m["group"] for m in roster if m["sample_type"] == "sample"})
         for g in (group_a, group_b):
             if g not in groups:
                 raise SimplyMZError(
@@ -390,7 +414,7 @@ def register(server: MCPServer, registry: Registry, app: App) -> None:
                 "Pick two different groups.",
                 f"Groups in this batch: {', '.join(groups)}.",
             )
-        res = compare(members, consensus, group_a, group_b, blank_fold, min_presence)
+        res = compare(members, consensus, group_a, group_b, blank_fold, min_presence, roster)
         n_a, n_b = res["n_a"], res["n_b"]
         sig = [r for r in res["ranked"] if r["q_value"] is not None and r["q_value"] < 0.05]
         limits = [
@@ -400,6 +424,13 @@ def register(server: MCPServer, registry: Registry, app: App) -> None:
             "assigned here (see milestone M4 tools).",
             "Features are aligned monoisotopic peaks; isotopes were grouped before testing.",
         ]
+        if res["empty_sample_runs"]:
+            limits.append(
+                "Samples with no detected features are retained in replicate counts and "
+                "presence filtering, with missing areas imputed: "
+                + ", ".join(res["empty_sample_runs"])
+                + ". Check these runs before interpreting the comparison."
+            )
         if min(n_a, n_b) < SMALL_N:
             limits.insert(
                 0,
@@ -413,6 +444,7 @@ def register(server: MCPServer, registry: Registry, app: App) -> None:
             "n_a": n_a,
             "n_b": n_b,
             "n_tested": res["n_tested"],
+            "empty_sample_runs": res["empty_sample_runs"],
             "n_significant_q05": len(sig),
             "removed_blank": res["removed_blank"],
             "removed_presence": res["removed_presence"],

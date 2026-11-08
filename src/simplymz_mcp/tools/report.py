@@ -30,8 +30,8 @@ def register(server: MCPServer, registry: Registry, app: App) -> dict[str, Any]:
         overwrite: bool = False,
     ) -> dict[str, Any]:
         """Write a Markdown/HTML report. Put numbers in {ev:<id>:<path>} slots (e.g.
-        {ev:01J...:data.metrics.rt_drift_min.value}); any other number in the text must
-        appear in a referenced ledger entry or the report is rejected (number guard).
+        {ev:01J...:data.metrics.rt_drift_min.value}). Literal numbers are rejected,
+        including in titles, headings and inline code; use a slot for each measurement.
         Limits of every referenced result are carried into the report automatically."""
         if not SLUG.match(filename):
             raise SimplyMZError(
@@ -69,7 +69,7 @@ def register(server: MCPServer, registry: Registry, app: App) -> dict[str, Any]:
         for ext in targets:
             p = out_dir / f"{filename}{ext}"
             p.write_text(
-                rep.markdown if ext == ".md" else to_html(rep.markdown, title), encoding="utf-8"
+                rep.markdown if ext == ".md" else to_html(rep.markdown, rep.title), encoding="utf-8"
             )
             paths.append(f"{REPORT_DIR}/{p.name}")
         digest = hashlib.sha256(rep.markdown.encode()).hexdigest()
@@ -85,7 +85,7 @@ def register(server: MCPServer, registry: Registry, app: App) -> dict[str, Any]:
                 "n_disclosures": len(rep.disclosures),
             },
             limits=[
-                "The report proves where each number came from; it does not re-check the "
+                "Slots link values to specific evidence fields; they do not verify the "
                 "science. Its limits section repeats every referenced result's limits."
             ],
         )

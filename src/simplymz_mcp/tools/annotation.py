@@ -213,6 +213,11 @@ def register(server: MCPServer, registry: Registry, app: App) -> dict[str, Any]:
         hits.sort(key=lambda h: (-float(h["score"]), str(h["name"])))
         passing = [h for h in hits if h["passes"]]
         data = {
+            "feature_context": {
+                "run_sha256": run.sha256,
+                "rt_min": float(run.scans.rt_min[i]),
+                "polarity": int(run.scans.polarity[i]),
+            },
             "query": {
                 "scan": run.scans.native_id[i],
                 "rt_min": round(float(run.scans.rt_min[i]), 4),
@@ -316,6 +321,7 @@ def register_formula_and_confidence(
             )
         polarity = None
         observed = None
+        feature_context = None
         sha: list[str] = []
         parents: list[str] = []
         if run_handle:
@@ -327,6 +333,19 @@ def register_formula_and_confidence(
             s = run.scans
             ms1 = np.flatnonzero(s.ms_level == 1)
             i = int(ms1[np.argmin(np.abs(s.rt_min[ms1] - rt_min))])
+            scan_polarity = int(s.polarity[i])
+            if scan_polarity and add.charge * scan_polarity < 0:
+                raise SimplyMZError(
+                    ErrorCode.POLARITY_MISMATCH,
+                    "The selected MS1 scan has a different polarity from the adduct.",
+                    "Select a scan and adduct with matching polarity.",
+                )
+            feature_context = {
+                "run_sha256": run.sha256,
+                "rt_min": float(s.rt_min[i]),
+                "polarity": scan_polarity,
+                "adduct": adduct,
+            }
             observed = observe(*run.peaks(i), mz, add.charge)
         try:
             cands = enumerate_formulas(add.neutral(mz), mz_tol_ppm, elements)
@@ -345,6 +364,7 @@ def register_formula_and_confidence(
             rows.append(row)
         data = {
             "mz": mz,
+            "feature_context": feature_context,
             "adduct": adduct,
             "neutral_mass": round(add.neutral(mz), 6),
             "elements": elements,
@@ -391,7 +411,9 @@ def register_formula_and_confidence(
     def assign_confidence(evidence: list[str]) -> dict[str, Any]:
         """Identification confidence level (Schymanski 1-5) from evidence: provenance_ids
         of propose_formulas and match_spectrum results for the same feature. The level is
-        computed by a versioned rule table and cannot be set by the caller."""
+        computed by a versioned rule table and cannot be set by the caller. Combining
+        records requires the same run hash, RT within 0.15 min, and compatible polarity
+        and adducts. Recompute older evidence that lacks feature context."""
         if not evidence:
             raise SimplyMZError(
                 ErrorCode.INVALID_ARGUMENT,
@@ -414,6 +436,7 @@ def register_formula_and_confidence(
                     f"Supported: {', '.join(confidence.SUPPORTED_OPS)}.",
                 )
             records.append(rec)
+        confidence.validate_feature(records)
         mzs = [confidence.evidence_mz(r) for r in records]
         ref = mzs[0]
         if any(abs(m - ref) / ref * 1e6 > confidence.SAME_FEATURE_PPM for m in mzs):

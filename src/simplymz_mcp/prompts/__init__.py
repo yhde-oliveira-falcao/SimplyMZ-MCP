@@ -13,6 +13,8 @@ if TYPE_CHECKING:
 
 HONESTY = """Rules:
 - Cite the numbers the tools returned (value, unit, threshold) and keep each provenance_id.
+- In exported reports, use {ev:<id>:<path>} slots for every measurement, including
+  titles and headings; literal numbers in inline code are rejected too.
 - Repeat every item in `limits` that affects your conclusion; never drop a precision note.
 - Do not speculate on causes beyond the possibilities listed below; say what would confirm
   each one.

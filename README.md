@@ -29,7 +29,8 @@ Status: 0.1.0 pre-release. Research use only, not for clinical or regulatory dec
    evidence; Level 1 is never claimed). Prompt: `/identify_peak`.
 
 Every workflow ends with `export_report` (Markdown/HTML): numbers come from ledger slots,
-and a number guard rejects any figure that cannot be traced to evidence. All 19 tools are
+and a number guard requires explicit evidence slots for measurements, including in titles
+and inline code. All 19 tools are
 documented in [docs/tools.md](docs/tools.md).
 
 ## Install
